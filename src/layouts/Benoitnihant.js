@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import {createStore} from 'redux';
+import {connect} from 'react-redux';
 import {
   Button,
   Container,
@@ -15,6 +17,7 @@ import {
   Visibility,
 } from 'semantic-ui-react';
 import { Slider } from 'react-burgers';
+import '../css/Benoitnihant.css';
 
 class Heading extends Component {
 	render() {
@@ -38,110 +41,93 @@ class Heading extends Component {
 
 class FirstSegment extends Component {
 
-	state = {
-		height: 70,
-		go: true
-	}
-	mouseOverGo() {
-		this.setState({
-			height: 100,
-			go: false
-		});
-	}
-	mouseOverHome() {
-		this.setState({
-			height: 70,
-			go: true
-		});
-	}
+    constructor(props) {
+        super(props);
+    }
+    mouseOverBack() {
+        if (this.props.store.benoitnihant.fgBack) {
+            {this.props.store.reset()}
+        }
+    }
+    mouseOverGo() {
+        if (this.props.store.benoitnihant.fgGo) {
+            {this.props.store.moveFirstSegment(100, false, true, false, 0, false)}
+        }
+    }
+    mouseOverHome() {
+        if (this.props.store.benoitnihant.fgHome) {
+            {this.props.store.reset()}
+        }
+    }
 
 	render() {
 		return (
-			<Segment
-				textAlign = 'center'
+			<div
+                className='firstSegment'
 				style={{
-					marginBottom: '0',
-					// minHeight: 700,
-	        // backgroundImage: 'url(images/cover-homepage.jpg)',
-	        backgroundImage: 'url(images/river.jpg)',
-	        // backgroundSize: '100% 100%',
-	        backgroundSize: 'cover',
-	        height: this.state.height+'vh',
-	        backgroundColor: 'red',
-	        transition: '1s',
-	      }}>
-	      <Heading />
-	      <Container style={{ marginTop: this.state.height-20+'vh', transition: '1s' }}>
-		      <Container
-		      	onMouseOver={
-		      		() => this.mouseOverGo()
-		      	}
-		      	style={{
-		      		width: '7%',
-		      		fontFamily: 'humanst521_btroman',
-		      		fontWeight: 'lighter',
-		      		fontSize: '14px',
-		      		color: this.props.color,
-		      		opacity: this.state.go ? '100' : '0',
-		      		marginLeft: 'auto',
-		      		marginRight: 'auto',
-		      		transition: '2s',
-		      	}}>GO</Container>
-		      <br />
-		      <Container
-		      	onMouseOver={
-		      		() => this.mouseOverHome()
-		      	}
-		      	style={{
-		      		width: '7%',
-		      		fontFamily: 'humanst521_btroman',
-		      		fontWeight: 'lighter',
-		      		fontSize: '14px',
-		      		color: this.props.color,
-		      		opacity: this.state.go ? '0' : '100',
-		      		marginLeft: 'auto',
-		      		marginRight: 'auto',
-		      		transition: '2s',
-		      	}}>HOME</Container>
-	      	</Container>
-			</Segment>
+        	        height: this.props.store.benoitnihant.fgHeight+'vh',
+                    backgroundImage: 'url(images/river.jpg)',
+        	    }}
+            >
+    	        <Heading />
+                <Container>
+                    <Container
+                        onMouseOver={ (e) => this.mouseOverBack(e) }
+                        className='back'
+                        style={{
+                            opacity: this.props.store.benoitnihant.fgBack ? '100' : '0',
+                        }}
+                    >BACK</Container>
+        		    <Container
+        		      	onMouseOver={ (e) => this.mouseOverGo(e) }
+                        className='go'
+        		      	style={{
+        		      		opacity: this.props.store.benoitnihant.fgGo ? '100' : '0',
+        		        }}
+                    >GO</Container>
+        		    <Container
+        		      	onMouseOver={ (e) => this.mouseOverHome(e) }
+                        className='home'
+        		      	style={{
+        		      		opacity: this.props.store.benoitnihant.fgHome ? '100' : '0',
+                            marginTop: this.props.store.benoitnihant.fgHome ? '30vh' : '0',
+        		        }}
+                    >HOME</Container>
+    	      	</Container>
+			</div>
 		);
 	}
 }
 
 class SecondSegment extends Component {
 
-	state = {
-		height: 70,
-		go: true
-	}
-	mouseOverGo() {
-		this.setState({
-			height: 100,
-			go: false
-		});
-	}
-	mouseOverHome() {
-		this.setState({
-			height: 70,
-			go: true
-		});
-	}
+    constructor(props) {
+        super(props);
+    }
+    mouseOverUp() {
+        // if (this.props.store.benoitnihant.sgUp) {
+            {this.props.store.moveFirstSegment(30, false, false, true, 70, false)}
+        // }
+    }
 
 	render() {
 		return (
-			<Segment
-				textAlign = 'center'
-				style={{ 
-					marginTop: '0px',
-					// minHeight: 700,
-	        backgroundImage: 'url(images/megazine.jpg)',
-	        // backgroundSize: '100%',
-	        backgroundSize: 'cover',
-	        height: 30+'vh',
-	        transition: '1s',
-	      }}>
-			</Segment>
+			<div
+                className='secondSegment'
+				style={{
+    	            backgroundImage: 'url(images/megazine.jpg)',
+    	        }}
+            >
+                <Container>
+        		    <div
+        		      	onMouseOver={ (e) => this.mouseOverUp(e) }
+                        className='up'
+        		      	style={{
+        		      		opacity: this.props.store.benoitnihant.sgUp ? '100' : '0',
+        		      	}}
+                    >UP</div>
+                </Container>
+			</div>
 		);
 	}
 }
@@ -151,14 +137,40 @@ class Benoitnihant extends Component {
 	render() {
 		return (
 			<Responsive>
-				<Visibility>
-					<FirstSegment color="#ffffff" />
-					<SecondSegment />
+				<Visibility style={{ overflow: 'hidden' }}>
+                    <SecondSegment store={this.props} />
+					<FirstSegment store={this.props} />
 				</Visibility>
 			</Responsive>
 		);
 	}
 }
 
-
-export default Benoitnihant;
+const mapStateToProps = (state) => {
+    return {
+        benoitnihant: state.benoitnihant
+    };
+}
+const mapDispatchToProps = (dispatch) => {
+    return {
+        moveFirstSegment: (fgHeight, fgGo, fgHome, fgBack, sgHeight, sgUp) => {
+            dispatch({
+                type: "MOVE_FIRST_SEGMENT",
+                payload: {
+                    fgHeight: fgHeight,
+                    fgGo: fgGo,
+                    fgHome: fgHome,
+                    fgBack: fgBack,
+                    sgHeight: sgHeight,
+                    sgUp: sgUp,
+                }
+            });
+        },
+        reset: () => {
+            dispatch({
+                type: "RESET"
+            });
+        },
+    };
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Benoitnihant);

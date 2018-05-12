@@ -1,0 +1,77 @@
+
+
+.firstSegment {
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 0;
+    background-size: cover;
+    transition: 1s;
+    position: absolute;
+    width: 100%;
+}
+
+.secondSegment {
+    color: #ffffff;
+    text-align: center;
+    margin-top: 0px;
+    position: absolute;
+    background-size: cover;
+    height: 70vh;
+    width: 100%;
+    top: 30vh;
+    transition: 1s;
+}
+
+.back {
+    background-color: red;
+
+    width: 7%;
+    font-family: 'humanst521_btroman';
+    font-weight: lighter;
+    font-size: 14px;
+    margin-left: auto;
+    margin-right: auto;
+    transition: 1s;
+}
+
+@keyframes go {
+    from {background-color: yellow;}
+    to {background-color: red;}
+}
+
+.go {
+    width: 80px !important;
+    background-color: red;
+    font-family: 'humanst521_btroman';
+    font-weight: lighter;
+    font-size: 14px;
+    margin-top: 50vh;
+    margin-left: auto;
+    margin-right: auto;
+    transition: 2s;
+    animation-name: go;
+    animation-duration: 4s;
+}
+
+.home {
+    width: 80px !important;
+    background-color: red;
+    font-family: 'humanst521_btroman';
+    font-weight: lighter;
+    font-size: 14px;
+    margin-left: auto;
+    margin-right: auto;
+    transition: 0.5s;
+}
+
+.up {
+    width: 80px !important;
+    background-color: red;
+    font-family: 'humanst521_btroman';
+    font-weight: lighter;
+    font-size: 14px;
+    margin-top: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    transition: ease-out;
+}
